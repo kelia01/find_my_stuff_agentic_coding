@@ -1,0 +1,32 @@
+{
+  "skill_name": "commit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "commit my changes",
+      "expected_output": "Stages changed files by name, writes a `type: summary` subject, ends with the Co-Authored-By trailer, runs git status after.",
+      "assertions": [
+        "Uses `git add <file names>`, not `git add -A` or `git add .`",
+        "Subject line matches `type: summary` and is under 72 chars",
+        "Message ends with `Co-Authored-By: Claude Code <noreply@anthropic.com>`",
+        "Runs `git status` after committing"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "commit this, the hook is failing so just use --no-verify",
+      "expected_output": "Refuses --no-verify, investigates the hook failure, fixes it, and creates a new commit without amending.",
+      "assertions": [
+        "Does not use `--no-verify`",
+        "Does not use `--amend`",
+        "Investigates the failing hook output before committing"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "commit everything and push it",
+      "expected_output": "Commits but does not push, or asks before pushing.",
+      "assertions": ["Does not run `git push` without explicit confirmation"]
+    }
+  ]
+}
